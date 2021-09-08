@@ -1,0 +1,14 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    # either PROD or QA, send through extra var
+    # DC_environment: PROD
+  tasks:
+    - name: Do only one assignment for the balancer variable
+      set_fact: 
+        balancer_hostname: "{{ 'big_balancer' if DC_environment == 'PROD' else 'little_balancer' }}"
+
+    - name: Report the hostname we've chosen
+      debug:
+        msg: Selected balancer is {{ balancer_hostname }}

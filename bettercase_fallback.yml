@@ -1,0 +1,19 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    # either PROD, QA or DEV, send through extra var
+    # DC_environment: PROD
+    balancers:
+      PROD: big_balancer
+      QA: little_balancer
+      DEV: tiny_balancer
+    # fallback case should use localhost
+  tasks:
+    - name: Do only one assignment for the balancer variable
+      set_fact: 
+        balancer_hostname: "{{ balancers[DC_environment] | default('localhost') }}"
+
+    - name: Report the hostname we've chosen
+      debug:
+        var: balancer_hostname

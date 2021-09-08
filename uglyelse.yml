@@ -1,0 +1,21 @@
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    # either PROD or NONPROD, send through extra var
+    # DC_environment: PROD
+  tasks:
+    - name: Set our load balancer hostname depending on the environment
+      set_fact: 
+        balancer_hostname: big_balancer
+      when: DC_environment ==  'PROD'
+      
+    - name: Set our load balancer hostname depending on the environment
+      set_fact: 
+        balancer_hostname: little_balancer
+    # when: DC_environment ==  'NONPROD'
+      when: DC_environment !=  'PROD'
+
+    - name: Report the hostname we've chosen
+      debug:
+        msg: Selected balancer is {{ balancer_hostname }}
