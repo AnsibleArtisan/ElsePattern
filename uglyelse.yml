@@ -8,12 +8,12 @@
     - name: Set our load balancer hostname depending on the environment
       set_fact: 
         balancer_hostname: big_balancer
-      when: DC_environment ==  'PROD'
+      when: DC_environment == 'PROD'
       
     - name: Set our load balancer hostname depending on the environment
       set_fact: 
         balancer_hostname: little_balancer
-      when: DC_environment !=  'PROD'
+      when: DC_environment != 'PROD'
 
     - name: Report the hostname we've chosen
       debug:
